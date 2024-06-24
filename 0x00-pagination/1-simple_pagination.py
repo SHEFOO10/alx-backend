@@ -24,11 +24,13 @@ class Server:
     return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        assert (isinstance(page, int) and isinstance(page_size, int))
-        assert (page > 0 and page_size > 0)
+        assert (page > 0 and isinstance(page, int))
+        assert (page > 0 and isinstance(page_size, int))
         first_index, end = index_range(page, page_size)
-        return self.dataset()[first_index:end]
-
+        try:
+            result = self.dataset()[first_index:end]
+        except IndexError:
+            return []
 
 def index_range(page, page_size):
     """ return index range based on page and page_size """
