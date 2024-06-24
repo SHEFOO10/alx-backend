@@ -32,6 +32,7 @@ class Server:
         except IndexError:
             return []
 
+
 def index_range(page, page_size):
     """ return index range based on page and page_size """
     return (
