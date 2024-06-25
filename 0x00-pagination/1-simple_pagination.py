@@ -39,4 +39,4 @@ class Server:
         data = self.dataset()
         if start > len(data):
             return []
-        return data[first_index, end]
+        return data[start:end]
