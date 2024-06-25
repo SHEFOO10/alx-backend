@@ -1,15 +1,17 @@
-""" 2. Hypermedia pagination """
+#!/usr/bin/env python3
+"""Hypermedia pagination sample.
+"""
 import csv
 import math
-from typing import List, Tuple, Dict, Union
+from typing import Dict, List, Tuple
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """ return index range based on page and page_size """
-    return (
-            (page - 1) * page_size,
-            page * page_size
-            )
+    """Retrieves the index range from a given page and page size.
+    """
+    start = (page - 1) * page_size
+    end = start + page_size
+    return (start, end)
 
 
 class Server:
@@ -19,20 +21,21 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """ Initializes a new Server instance. """
         self.__dataset = None
 
     def dataset(self) -> List[List]:
-        """Cached dataset
-        """
+        """ returns Cached dataset """
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
                 reader = csv.reader(f)
                 dataset = [row for row in reader]
             self.__dataset = dataset[1:]
+
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """ get the page """
+        """ return data of the page """
         assert type(page) is int and type(page_size) is int
         assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
@@ -41,11 +44,9 @@ class Server:
             return []
         return data[start:end]
 
-    def get_hyper(
-        self,
-        page: int = 1,
-        page_size: int = 10,
-    ) -> Dict[str, Union[int, List[List], None]]:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+        """Retrieves information about a page.
+        """
         total_pages = math.ceil(len(self.dataset()) / page_size)
         next_page = None if (page + 1) > total_pages else page + 1
         prev_page = page - 1 if (page - 1) > 0 else None
