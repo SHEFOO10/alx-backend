@@ -5,6 +5,14 @@ import math
 from typing import List, Tuple
 
 
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """ return index range based on page and page_size """
+    return (
+            (page - 1) * page_size,
+            page * page_size
+            )
+
+
 class Server:
     """
     Server class to paginate a database of popular baby names.
@@ -32,11 +40,3 @@ class Server:
         if start > len(data):
             return []
         return data[first_index, end]
-
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """ return index range based on page and page_size """
-    return (
-            (page - 1) * page_size,
-            page * page_size
-            )
