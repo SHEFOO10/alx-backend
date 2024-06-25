@@ -39,7 +39,7 @@ class Server:
             }
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int, page_size: int = 10) -> Dict:
+    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """
         returns a dictionary with the following key-value pairs:
         index: the current start index of the return page.
@@ -53,7 +53,7 @@ class Server:
         assert index is not None and 0 <= index < len(self.indexed_dataset())
 
         indexed_data = self.indexed_dataset()
-        data: List = []
+        data = []
         current_index = index
 
         while len(data) < page_size and current_index < len(indexed_data):
