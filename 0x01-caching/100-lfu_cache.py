@@ -35,7 +35,6 @@ class LFUCache(BaseCaching):
                     del self.cache_data[lfu]
                     del self.freq_dict[lfu]
                     self.key_access_order.remove(lfu)
-                    print(lfu)
                     print('DISCARD: {}'.format(lfu))
                 self.cache_data[key] = item
                 self.freq_dict[key] = 1
