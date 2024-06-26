@@ -37,6 +37,7 @@ class LRUCache(BaseCaching):
         """
         get item from the cache with the key
         """
+        value = None
         if key is not None:
             value = self.cache_data.get(key, None)
             if value is not None:
