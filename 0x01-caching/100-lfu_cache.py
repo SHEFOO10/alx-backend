@@ -27,8 +27,12 @@ class LFUCache(BaseCaching):
                 if len(self.cache_data) >= self.MAX_ITEMS:
                     # Remove least frequently used item(s)
                     min_freq = min(self.freq_dict.values())
-                    lfu_keys = [k for k, v in self.freq_dict.items() if v == min_freq]
-                    lfu = min(lfu_keys, key=lambda k: self.key_access_order.index(k))
+                    lfu_keys = [k for k, v in self.freq_dict.items()
+                                if v == min_freq
+                                ]
+                    lfu = min(lfu_keys,
+                              key=lambda k: self.key_access_order.index(k)
+                              )
                     del self.cache_data[lfu]
                     del self.freq_dict[lfu]
                     self.key_access_order.remove(lfu)
@@ -36,6 +40,7 @@ class LFUCache(BaseCaching):
                 self.cache_data[key] = item
                 self.freq_dict[key] = 1
                 self.key_access_order.append(key)
+
     def get(self, key):
         """
         get item with the passed key
