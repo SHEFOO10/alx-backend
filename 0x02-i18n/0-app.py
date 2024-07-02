@@ -3,12 +3,12 @@
 from flask import Flask, render_template
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
-
-@app.route('/', strict_slashes=True)
+@app.route('/')
 def home() -> str:
     """ Return the home page """
-    return render_template('index.html')
+    return render_template('0-index.html')
 
 
 if __name__ == '__main__':
