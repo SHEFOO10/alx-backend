@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
 from typing import Dict, Union
+import pytz
 
 
 class Config:
@@ -33,16 +34,24 @@ def get_locale():
     return app.config['BABEL_DEFAULT_LOCALE']
 
 
-@bable.timezoneselector
+@babel.timezoneselector
 def get_timezone():
     """ Get timezone """
     timezone = request.args.get('timezone', None)
-    if timezone:
+    if timezone and is_valid_timezone(timezone):
         return locale
     user = g.get('user', None)
-    if user and 'timezone' in user:
+    if user and 'timezone' in user\
+    and is_valid_timezone(user['timezone']):
         return user['timezone']
     return app.config['BABEL_DEFAULT_TIMEZONE']
+
+
+def is_valid_timezone(timezone):
+    try:
+        return bool(pytz.timezone(timezone))
+    except pytz.UnknownTimeZoneError:
+        return False
 
 
 @app.route('/')
