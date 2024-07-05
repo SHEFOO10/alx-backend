@@ -22,14 +22,13 @@ babel = Babel(app)
 def get_locale():
     """ determine the best match with our supported languages """
     locale = request.args.get('locale', None)
+    if locale:
+        return locale
     user = g.get('user', None)
     user_locale = user['locale'] if user else None
     if user_locale:
         return user_locale
-    return (
-        locale if locale
-        else request.accept_languages.best_match(app.config['LANGUAGES'])
-    )
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
