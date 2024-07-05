@@ -28,13 +28,16 @@ def get_locale():
     user_locale = user['locale'] if user else None
     if user_locale:
         return user_locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    match = request.accept_languages.best_match(app.config['LANGUAGES'])
+    if match:
+        return match
+    return app.config['BABEL_DEFAULT_LOCALE']
 
 
 @app.route('/')
 def index() -> str:
     """ Returns home page """
-    return render_template('5-index.html')
+    return render_template('6-index.html')
 
 
 users = {
